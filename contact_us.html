@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us</title>
+<style>
+  :root {
+    --bg: #f9fafc;       /* main background */
+    --card: #ffffff;     /* card background */
+    --text: #1a1a1a;     /* main text */
+    --muted: #555;       /* muted/sub text */
+    --accent: #2b6cb0;   /* accent (blue) */
+    --border: #d0d7e2;   /* border color */
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(180deg, var(--bg), #f0f2f8);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 24px; }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 20px 24px; background: rgba(255,255,255,0.9);
+    border: 1px solid var(--border); border-radius: 16px;
+    position: sticky; top: 12px; backdrop-filter: blur(6px);
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #63b3ed);
+  }
+
+  h1 { font-size: clamp(22px, 3.5vw, 32px); margin: 0; }
+
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, a.btn {
+    appearance: none; border: 1px solid var(--border);
+    background: #f6f8fc; color: var(--text);
+    padding: 10px 14px; border-radius: 12px; cursor: pointer;
+    text-decoration: none; font-weight: 600;
+  }
+  button:hover, a.btn:hover { border-color: var(--accent); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px; padding: 24px; margin-top: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  .meta { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+  nav.toc { margin-top: 16px; }
+  nav.toc ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  nav.toc a {
+    color: var(--muted); text-decoration: none;
+    border: 1px dashed var(--border); border-radius: 12px;
+    padding: 8px 12px; display: block;
+  }
+  nav.toc a:hover { color: var(--text); border-color: var(--accent); }
+
+  h2 { font-size: 22px; margin: 28px 0 10px; }
+  h3 { font-size: 18px; margin: 20px 0 8px; }
+  p { margin: 10px 0; }
+  ul { padding-left: 18px; }
+  section { scroll-margin-top: 90px; }
+  code.placeholder {
+    background: #f6f8fc;
+    border: 1px solid var(--border);
+    padding: 2px 6px; border-radius: 6px;
+  }
+
+  footer { color: var(--muted); text-align: center; padding: 40px 10px; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #000; }
+    header, .actions, .toc { display: none !important; }
+    .card { box-shadow: none; border: none; }
+    a { color: inherit; }
+  }
+</style>
+
+</head>
+<body>
+  <div class="container">
+
+    <main class="card">
+      <h1>Contact Us</h1>
+      <div class="meta">Last updated: <span id="lastUpdated">21-08-2025 16:36:01</span></div>
+  <p>You may contact us using the details below:</p>
+
+  <ul>
+    <li><strong>Merchant Legal Entity Name:</strong> BRIJRAJSINH NITUBHA GOHIL</li>
+    <li><strong>Registered Address:</strong> J K CHOWK RAJKOT, RAJKOT, Gujarat, PIN: 360005</li>
+    <li><strong>Operational Address:</strong> J K CHOWK RAJKOT, RAJKOT, Gujarat, PIN: 360005</li>
+    <li><strong>Telephone No:</strong> 9724099125</li>
+    <li><strong>Email ID:</strong> nitubha2536@gmail.com</li>
+  </ul>
+
