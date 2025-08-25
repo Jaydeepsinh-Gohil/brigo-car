@@ -19,7 +19,7 @@
   body {
     margin: 0;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(180deg, var(--bg), #f0f2f8);
+    background: #222;
     color: var(--text);
     line-height: 1.6;
   }
@@ -50,12 +50,15 @@
   }
   button:hover, a.btn:hover { border-color: var(--accent); }
 
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px; padding: 24px; margin-top: 16px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  }
+.card {
+  background: #f5f5f7e6;   /* ✅ off-white card */
+  color: #1a1a1a;        /* ✅ dark text inside card */
+  border: 1px solid #e0e0e0;
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15); /* stronger shadow for contrast */
+}
 
   .meta { color: var(--muted); font-size: 14px; margin-top: 6px; }
 
@@ -83,7 +86,7 @@
 
   /* Print */
   @media print {
-    body { background: #fff; color: #000; }
+    body { background: #222; color: #000; }
     header, .actions, .toc { display: none !important; }
     .card { box-shadow: none; border: none; }
     a { color: inherit; }
@@ -95,7 +98,7 @@
   <div class="container">
 
     <main class="card">
-      <h1>Cancellation & Refund Policy</h1>
+      <h1>Refund Policy</h1>
       <div class="meta">Last updated: <span id="lastUpdated">21-08-2025 16:36:01</span></div>
   <p>
     <strong>BRIJRAJSINH NITUBHA GOHIL</strong> believes in helping its customers as far as possible and has therefore adopted a liberal cancellation policy. Please read the details below:
