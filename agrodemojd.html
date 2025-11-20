@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GreenField Connect | Agricultural B2B Marketplace</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config for Brand Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        // Green/Agricultural tones
+                        agri: {
+                            50: '#f2fbf5',
+                            100: '#eef8f2',
+                            200: '#c6eecf',
+                            300: '#99d9ad',
+                            400: '#66c285',
+                            500: '#2e8b57', // Base Brand Color
+                            600: '#1a7042',
+                            700: '#145d36',
+                            800: '#134b2d',
+                            900: '#072e1a',
+                        },
+                        // Earth/Soil tones
+                        earth: {
+                            50: '#fbfaf9',
+                            100: '#f5f3f0',
+                            200: '#e8e3dd',
+                            300: '#d6cec5',
+                            800: '#5c544b',
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    <script type="importmap">
+        {
+          "imports": {
+            "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+            "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+          }
+        }
+    </script>
+</head>
+<body class="bg-earth-50 text-slate-800 font-sans selection:bg-agri-200 selection:text-agri-900">
+
+<!-- NAVBAR -->
+<nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-earth-200 shadow-sm transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <!-- Logo -->
+            <div class="flex items-center cursor-pointer group" onclick="window.scrollTo(0,0)">
+                <div class="bg-agri-500 p-2 rounded-lg mr-3 shadow-lg group-hover:bg-agri-600 transition-colors">
+                    <i data-lucide="wheat" class="h-6 w-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif font-bold text-xl text-agri-900 tracking-tight leading-none">GreenField</h1>
+                    <span class="text-xs text-agri-600 font-medium tracking-widest uppercase">Connect</span>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">About Us</a>
+                <a href="#services" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">Services</a>
+                <a href="#process" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">How it Works</a>
+                <a href="#benefits" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">Benefits</a>
+                <a href="#contact" class="bg-agri-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-agri-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Get Started
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-btn" class="text-slate-600 hover:text-agri-600 p-2 rounded-md hover:bg-agri-50 transition-colors">
+                    <i data-lucide="menu" id="menu-icon" class="h-7 w-7"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-earth-200 shadow-xl absolute w-full">
+        <div class="px-4 pt-4 pb-6 space-y-2">
+            <a href="#about" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">About Us</a>
+            <a href="#services" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">Services</a>
+            <a href="#process" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">How it Works</a>
+            <a href="#benefits" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">Benefits</a>
+            <a href="#contact" class="block px-4 py-3 mt-4 rounded-lg text-base font-bold text-center bg-agri-600 text-white hover:bg-agri-700">Get Started Now</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-slate-900">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-agri-900/80 to-slate-900/40 z-10"></div>
+        <img src="https://fastly.picsum.photos/id/110/1920/1080.jpg?hmac=iK7v9di6IQ0YMzcnkQ1aX7oXYb88N3QM017gbIJ4poM" alt="Farmer in a vast green field" class="w-full h-full object-cover opacity-80" />
+    </div>
+
+    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full text-white">
+        <div class="max-w-3xl animate-fade-in-up">
+            <!-- Badge -->
+            <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-8">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+                <span class="text-sm font-medium text-green-50 tracking-wide uppercase">#1 B2B Agri Platform</span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6 shadow-sm">
+                Fair Trade from <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-200">Farm to Fork.</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl leading-relaxed">
+                We eliminate the middlemen. GreenField Connect ensures hard-working farmers get paid fairly and instantly, while distributors receive premium quality produce on time.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-5">
+                <a href="#contact" class="bg-agri-500 hover:bg-agri-600 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:-translate-y-1 shadow-xl shadow-agri-900/50 flex items-center justify-center gap-2 group">
+                    Become a Partner
+                    <i data-lucide="arrow-right" class="h-5 w-5 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#process" class="bg-white/5 hover:bg-white/15 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all flex items-center justify-center">
+                    See How It Works
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="bg-agri-50 border-b border-agri-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-agri-200/50">
+            <div>
+                <div class="text-3xl font-bold text-agri-800">5,000+</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Farmers</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-agri-800">120+</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Distributors</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-agri-800">15k Tons</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Produce Moved</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-agri-800">100%</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Payment Success</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ABOUT US -->
+<section id="about" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative order-2 md:order-1">
+                <div class="absolute -top-6 -left-6 w-32 h-32 bg-agri-100 rounded-full opacity-50 mix-blend-multiply animate-pulse"></div>
+                <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-earth-200 rounded-full opacity-50 mix-blend-multiply"></div>
+                <img src="https://fastly.picsum.photos/id/98/800/800.jpg?hmac=ZNQwdO2uxN0C_hwI9Wha3K7uKCkGVU6f3hlpRJ2uYgQ" alt="Farmers holding tablet" class="relative rounded-2xl shadow-2xl w-full object-cover aspect-[4/3] transform hover:scale-[1.02] transition-transform duration-500" />
+                <!-- Quote Card -->
+                <div class="absolute -bottom-8 -left-8 bg-white p-6 rounded-xl shadow-xl max-w-xs hidden lg:block border border-earth-100">
+                    <p class="text-slate-600 italic text-sm mb-4">"GreenField changed our lives. We finally get paid what we deserve, immediately."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <div class="text-slate-900 font-bold text-sm">Rajesh Kumar</div>
+                            <div class="text-slate-500 text-xs">Wheat Farmer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-1 md:order-2">
+                <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block">Who We Are</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6 leading-tight">Built by Farmers,<br>For Farmers.</h2>
+                <p class="text-slate-600 mb-6 leading-relaxed text-lg">
+                    We started with a simple mission: to bring dignity back to farming. Too often, value is lost in a complex chain of middlemen, leaving farmers with pennies and buyers with inflated costs.
+                </p>
+                <p class="text-slate-600 mb-8 leading-relaxed text-lg">
+                    GreenField Connect is a digital bridge. We combine traditional agricultural wisdom with modern logistics and transparent technology.
+                </p>
+
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="h-6 w-6 text-agri-500"></i>
+                        <span class="text-slate-700 text-lg">Zero hidden commissions</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="h-6 w-6 text-agri-500"></i>
+                        <span class="text-slate-700 text-lg">24-hour payment guarantee</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="h-6 w-6 text-agri-500"></i>
+                        <span class="text-slate-700 text-lg">Verified quality checks</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-24 bg-earth-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block">Our Services</span>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-4">Everything You Need to Grow</h2>
+            <p class="text-slate-600 text-lg">Comprehensive solutions for a fragmented market.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Service Cards -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
+                <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300">
+{{--                    <i data-lucide="sprout" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sprout h-7 w-7 text-agri-600" aria-hidden="true"><path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3"></path><path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4"></path><path d="M5 21h14"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Direct Sourcing</h3>
+                <p class="text-slate-600 leading-relaxed">Access produce directly from the harvest. No aggregators, no delays.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
+                <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300">
+{{--                    <i data-lucide="truck" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck h-7 w-7 text-agri-600" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Smart Logistics</h3>
+                <p class="text-slate-600 leading-relaxed">Our tech-enabled fleet minimizes transit time to keep produce fresh.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
+                <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300">
+{{--                    <i data-lucide="shield-check" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check h-7 w-7 text-agri-600" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Quality Control</h3>
+                <p class="text-slate-600 leading-relaxed">15-point inspection process at the farm gate before loading.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
+                <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6  transition-colors duration-300">
+{{--                    <i data-lucide="trending-up" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up h-7 w-7 text-agri-600" aria-hidden="true"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Market Insights</h3>
+                <p class="text-slate-600 leading-relaxed">Real-time price discovery helping farmers decide when to sell.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="process" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-4">Simple & Transparent Flow</h2>
+            <p class="text-slate-600 text-lg">From the soil to the store shelf in 4 steps.</p>
+        </div>
+
+        <div class="relative">
+            <!-- Connector Line (Desktop) -->
+            <div class="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-agri-200 via-agri-300 to-agri-200 -translate-y-1/2 z-0"></div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+                <!-- Steps -->
+                <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">1</div>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900">Farmer Lists</h3>
+                    <p class="text-slate-600">Farmers upload harvest details, quantity, and expected dates via our mobile app.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">2</div>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900">We Verify</h3>
+                    <p class="text-slate-600">Agents visit the farm, check quality, and agree on a fair, transparent price.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">3</div>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900">We Connect</h3>
+                    <p class="text-slate-600">We match verified stock with distributor demand and handle the transport.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">4</div>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900">Instant Pay</h3>
+                    <p class="text-slate-600">Goods delivered. Farmers get paid instantly. Distributors get one invoice.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BENEFITS SPLIT SECTION -->
+<section id="benefits" class="py-24 bg-agri-900 text-white relative overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="absolute top-0 right-0 w-1/2 h-full bg-white/5 transform skew-x-12 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">Why Choose Us?</h2>
+            <p class="text-agri-200 text-lg">Creating value for both sides of the marketplace.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 lg:gap-16">
+            <!-- Farmer Benefits -->
+            <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-10 border border-white/10 hover:bg-white/10 transition-colors">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="p-3 bg-green-500/20 rounded-xl">
+                        <i data-lucide="wheat" class="h-8 w-8 text-green-400"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf h-8 w-8 text-green-400" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+                    </div>
+                    <h3 class="text-3xl font-bold">For Farmers</h3>
+                </div>
+                <ul class="space-y-6">
+                    <li class="flex items-start gap-4 group">
+                        <div class="mt-1 p-1 bg-green-500/20 rounded-full">
+                            <i data-lucide="check" class="h-4 w-4 text-green-400"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-xl font-semibold text-white block mb-1">Instant Payment</span>
+                            <span class="text-agri-200 text-sm">No more "net-60" terms. Get paid when produce leaves your farm.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4 group">
+                        <div class="mt-1 p-1 bg-green-500/20 rounded-full">
+                            <i data-lucide="check" class="h-4 w-4 text-green-400"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-xl font-semibold text-white block mb-1">Guaranteed Sales</span>
+                            <span class="text-agri-200 text-sm">Pre-agreed contracts mean you don't worry about finding buyers.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4 group">
+                        <div class="mt-1 p-1 bg-green-500/20 rounded-full">
+                            <i data-lucide="check" class="h-4 w-4 text-green-400"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-xl font-semibold text-white block mb-1">Zero Transport Hassle</span>
+                            <span class="text-agri-200 text-sm">We bring the trucks to you. You focus on farming.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Distributor Benefits -->
+            <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-10 border border-white/10 hover:bg-white/10 transition-colors">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="p-3 bg-blue-500/20 rounded-xl">
+                        <i data-lucide="store" class="h-8 w-8 text-blue-400"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck h-8 w-8 text-blue-400" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+                    </div>
+                    <h3 class="text-3xl font-bold">For Distributors</h3>
+                </div>
+                <ul class="space-y-6">
+                    <li class="flex items-start gap-4 group">
+                        <div class="mt-1 p-1 bg-blue-500/20 rounded-full">
+                            <i data-lucide="check" class="h-4 w-4 text-blue-400"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-blue-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-xl font-semibold text-white block mb-1">Verified Quality</span>
+                            <span class="text-agri-200 text-sm">Consistent grading standards you can trust blindly.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4 group">
+                        <div class="mt-1 p-1 bg-blue-500/20 rounded-full">
+                            <i data-lucide="check" class="h-4 w-4 text-blue-400"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-blue-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-xl font-semibold text-white block mb-1">Planned Supply</span>
+                            <span class="text-agri-200 text-sm">Predictable inventory management with our booking app.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4 group">
+                        <div class="mt-1 p-1 bg-blue-500/20 rounded-full">
+                            <i data-lucide="check" class="h-4 w-4 text-blue-400"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-blue-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <span class="text-xl font-semibold text-white block mb-1">Reduced Wastage</span>
+                            <span class="text-agri-200 text-sm">Optimized routes mean fresher produce and less loss.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-24 bg-earth-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-12 text-center">Common Questions</h2>
+        <div class="space-y-4" id="faq-container">
+
+            <!-- Item 1 -->
+            <div class="bg-white rounded-xl shadow-sm border border-earth-200 overflow-hidden faq-item">
+                <button class="w-full px-8 py-6 text-left flex justify-between items-center faq-btn">
+                    <span class="font-bold text-lg text-slate-900">When do farmers get paid?</span>
+                    <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50">
+                    Farmers are paid 50% upon agreement and the remaining 50% instantly during pickup via bank transfer or UPI.
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="bg-white rounded-xl shadow-sm border border-earth-200 overflow-hidden faq-item">
+                <button class="w-full px-8 py-6 text-left flex justify-between items-center faq-btn">
+                    <span class="font-bold text-lg text-slate-900">What kind of crops do you handle?</span>
+                    <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50">
+                    We specialize in wheat, rice, corn, onions, potatoes, tomatoes — and seasonal fruits soon.
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="bg-white rounded-xl shadow-sm border border-earth-200 overflow-hidden faq-item">
+                <button class="w-full px-8 py-6 text-left flex justify-between items-center faq-btn">
+                    <span class="font-bold text-lg text-slate-900">How do you ensure quality?</span>
+                    <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50">
+                    Our experts inspect using moisture meters and sizing tools before listing products.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-16">
+            <div>
+                <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block">Get in Touch</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6">Let's Grow Together</h2>
+                <p class="text-slate-600 text-lg mb-10">
+                    Whether you are a farmer looking to sell or a retailer looking to buy, we are here to simplify your business.
+                </p>
+
+                <div class="space-y-8">
+                    <div class="flex items-center gap-6 group">
+                        <div class="w-14 h-14 bg-agri-50 rounded-full flex items-center justify-center group-hover:bg-agri-500 transition-colors">
+                            <i data-lucide="phone" class="h-6 w-6 text-agri-600 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-lg">Call Us</div>
+                            <div class="text-slate-600">+1 (555) 123-4567</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6 group">
+                        <div class="w-14 h-14 bg-agri-50 rounded-full flex items-center justify-center group-hover:bg-agri-500 transition-colors">
+                            <i data-lucide="mail" class="h-6 w-6 text-agri-600 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-lg">Email Us</div>
+                            <div class="text-slate-600">hello@greenfieldconnect.com</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6 group">
+                        <div class="w-14 h-14 bg-agri-50 rounded-full flex items-center justify-center group-hover:bg-agri-500 transition-colors">
+                            <i data-lucide="map-pin" class="h-6 w-6 text-agri-600 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-lg">HQ Location</div>
+                            <div class="text-slate-600">AgriTech Park, Sector 4, Farmville</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-earth-50 p-8 md:p-10 rounded-3xl border border-earth-200 shadow-lg">
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('Thanks for contacting GreenField! We will call you shortly.');">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">First Name</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white" placeholder="John" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Last Name</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white" placeholder="Doe" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">I am a...</label>
+                        <div class="relative">
+                            <select class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 bg-white outline-none appearance-none text-slate-700">
+                                <option>Farmer</option>
+                                <option>Distributor / Retailer</option>
+                                <option>Logistics Partner</option>
+                            </select>
+                            <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                        <input type="email" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white" placeholder="john@farm.com" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
+                        <textarea rows="4" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white resize-none" placeholder="Tell us about your produce..."></textarea>
+                    </div>
+
+                    <button class="w-full bg-agri-600 text-white font-bold py-4 rounded-xl hover:bg-agri-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-12 mb-12">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center mb-4 text-white">
+                    <i data-lucide="wheat" class="h-6 w-6 mr-2"></i>
+                    <span class="font-serif font-bold text-xl">GreenField Connect</span>
+                </div>
+                <p class="max-w-sm leading-relaxed">Empowering agriculture through transparency, technology, and trust. Bridging the gap between hard work and fair reward.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-6">Quick Links</h4>
+                <ul class="space-y-3">
+                    <li><a href="#about" class="hover:text-agri-400 transition-colors">About Us</a></li>
+                    <li><a href="#services" class="hover:text-agri-400 transition-colors">Services</a></li>
+                    <li><a href="#benefits" class="hover:text-agri-400 transition-colors">Benefits</a></li>
+                    <li><a href="#contact" class="hover:text-agri-400 transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-6">Legal</h4>
+                <ul class="space-y-3">
+                    <li><a href="#" class="hover:text-agri-400 transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-agri-400 transition-colors">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-agri-400 transition-colors">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-slate-800 pt-8 text-sm text-center flex flex-col md:flex-row justify-between items-center">
+            <p>&copy; 2024 GreenField Connect. All rights reserved.</p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white"><i data-lucide="facebook" class="h-5 w-5"></i></a>
+                <a href="#" class="hover:text-white"><i data-lucide="twitter" class="h-5 w-5"></i></a>
+                <a href="#" class="hover:text-white"><i data-lucide="instagram" class="h-5 w-5"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- AI ASSISTANT WIDGET -->
+<div id="assistant-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <!-- Chat Window -->
+    <div id="chat-window" class="hidden mb-4 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-agri-100 overflow-hidden flex flex-col h-[500px] animate-fade-in-up">
+        <div class="bg-agri-600 p-4 flex justify-between items-center text-white">
+            <div class="flex items-center space-x-2">
+                <div class="bg-white/20 p-1.5 rounded-full">
+                    <i data-lucide="bot" class="h-5 w-5"></i>
+                </div>
+                <div>
+                    <span class="font-bold block text-sm">GreenField AI</span>
+                    <span class="text-xs text-agri-100 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-300"></span> Online</span>
+                </div>
+            </div>
+            <button id="close-chat" class="text-agri-100 hover:text-white hover:bg-white/10 p-1 rounded-full transition-colors">
+                <i data-lucide="x" class="h-5 w-5"></i>
+            </button>
+        </div>
+
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-earth-50 space-y-4 scrollbar-hide">
+            <!-- Initial Message -->
+            <div class="flex justify-start">
+                <div class="max-w-[85%] rounded-2xl px-4 py-3 text-sm bg-white text-slate-700 border border-earth-200 rounded-tl-none shadow-sm">
+                    <p class="font-bold text-agri-600 text-xs mb-1">Assistant</p>
+                    Hello! 👋 I'm the GreenField Assistant. Ask me about market trends, crop tips, or how our platform works.
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="chat-loading" class="hidden px-4 pb-2">
+            <div class="flex justify-start">
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-earth-200 shadow-sm">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-agri-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-agri-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-agri-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-3 bg-white border-t border-earth-100 flex items-center gap-2">
+            <input type="text" id="chat-input" placeholder="Ask about crops..." class="flex-1 px-4 py-2.5 bg-earth-50 border border-earth-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-agri-500 transition-shadow" />
+            <button id="send-chat" class="p-2.5 bg-agri-600 text-white rounded-full hover:bg-agri-700 transition-colors shadow-sm">
+                <i data-lucide="send" class="h-4 w-4"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toggle Button -->
+    <button id="toggle-chat" class="bg-agri-600 text-white p-4 rounded-full shadow-xl hover:bg-agri-700 hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 group">
+        <i data-lucide="message-circle" class="h-6 w-6 group-hover:animate-pulse"></i>
+        <span class="font-bold pr-1">Need Help?</span>
+    </button>
+</div>
+
+<!-- Custom Keyframes for simple animations -->
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+    .animate-fade-in { animation: fadeInUp 0.3s ease-out forwards; }
+</style>
+
+<script type="module" src="/index.tsx"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const faqItems = document.querySelectorAll(".faq-item");
+
+        faqItems.forEach((item) => {
+            const btn = item.querySelector(".faq-btn");
+            const answer = item.querySelector(".faq-answer");
+            const icon = item.querySelector(".chevron");
+
+            btn.addEventListener("click", () => {
+
+                // Close other items (Accordion)
+                faqItems.forEach((other) => {
+                    if (other !== item) {
+                        other.querySelector(".faq-answer").classList.add("hidden");
+                        other.querySelector(".chevron").classList.remove("rotate-180");
+                    }
+                });
+
+                // Toggle current item
+                answer.classList.toggle("hidden");
+                icon.classList.toggle("rotate-180");
+            });
+        });
+
+        // Load Lucide Icons
+        lucide.createIcons();
+    });
+</script>
+
+</body>
+</html>
