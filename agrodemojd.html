@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="gu">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,7 +24,6 @@
                         serif: ['Merriweather', 'serif'],
                     },
                     colors: {
-                        // Green/Agricultural tones
                         agri: {
                             50: '#f2fbf5',
                             100: '#eef8f2',
@@ -37,7 +36,6 @@
                             800: '#134b2d',
                             900: '#072e1a',
                         },
-                        // Earth/Soil tones
                         earth: {
                             50: '#fbfaf9',
                             100: '#f5f3f0',
@@ -54,15 +52,22 @@
         html { scroll-behavior: smooth; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-    <script type="importmap">
-        {
-          "imports": {
-            "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-            "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
-          }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-    </script>
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+  }
+}
+</script>
 </head>
 <body class="bg-earth-50 text-slate-800 font-sans selection:bg-agri-200 selection:text-agri-900">
 
@@ -83,17 +88,27 @@
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">About Us</a>
-                <a href="#services" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">Services</a>
-                <a href="#process" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">How it Works</a>
-                <a href="#benefits" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors">Benefits</a>
-                <a href="#contact" class="bg-agri-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-agri-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                <a href="#about" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors" data-i18n="nav.about">About Us</a>
+                <a href="#services" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors" data-i18n="nav.services">Services</a>
+                <a href="#process" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors" data-i18n="nav.process">How it Works</a>
+                <a href="#benefits" class="text-slate-600 hover:text-agri-600 text-sm font-medium transition-colors" data-i18n="nav.benefits">Benefits</a>
+                
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-agri-500 hover:text-agri-600 transition-all text-sm font-medium text-slate-600">
+                    <i data-lucide="languages" class="h-4 w-4"></i>
+                    <span class="lang-label">English</span>
+                </button>
+
+                <a href="#contact" class="bg-agri-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-agri-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5" data-i18n="nav.getStarted">
                     Get Started
                 </a>
             </div>
 
             <!-- Mobile Menu Button -->
-            <div class="md:hidden flex items-center">
+            <div class="md:hidden flex items-center gap-4">
+                <button onclick="toggleLanguage()" class="p-2 rounded-md text-slate-600 hover:bg-agri-50 hover:text-agri-600 transition-colors">
+                    <i data-lucide="languages" class="h-5 w-5"></i>
+                </button>
                 <button id="mobile-menu-btn" class="text-slate-600 hover:text-agri-600 p-2 rounded-md hover:bg-agri-50 transition-colors">
                     <i data-lucide="menu" id="menu-icon" class="h-7 w-7"></i>
                 </button>
@@ -104,11 +119,11 @@
     <!-- Mobile Menu Dropdown -->
     <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-earth-200 shadow-xl absolute w-full">
         <div class="px-4 pt-4 pb-6 space-y-2">
-            <a href="#about" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">About Us</a>
-            <a href="#services" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">Services</a>
-            <a href="#process" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">How it Works</a>
-            <a href="#benefits" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700">Benefits</a>
-            <a href="#contact" class="block px-4 py-3 mt-4 rounded-lg text-base font-bold text-center bg-agri-600 text-white hover:bg-agri-700">Get Started Now</a>
+            <a href="#about" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700" data-i18n="nav.about">About Us</a>
+            <a href="#services" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700" data-i18n="nav.services">Services</a>
+            <a href="#process" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700" data-i18n="nav.process">How it Works</a>
+            <a href="#benefits" class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 hover:bg-agri-50 hover:text-agri-700" data-i18n="nav.benefits">Benefits</a>
+            <a href="#contact" class="block px-4 py-3 mt-4 rounded-lg text-base font-bold text-center bg-agri-600 text-white hover:bg-agri-700" data-i18n="nav.getStarted">Get Started Now</a>
         </div>
     </div>
 </nav>
@@ -124,29 +139,29 @@
     <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full text-white">
         <div class="max-w-3xl animate-fade-in-up">
             <!-- Badge -->
-            <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-8">
+            <!-- <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-8">
             <span class="relative flex h-3 w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
             </span>
-                <span class="text-sm font-medium text-green-50 tracking-wide uppercase">#1 B2B Agri Platform</span>
-            </div>
+                <span class="text-sm font-medium text-green-50 tracking-wide uppercase" data-i18n="hero.badge">#1 B2B Agri Platform</span>
+            </div> -->
 
             <h1 class="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6 shadow-sm">
-                Fair Trade from <br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-200">Farm to Fork.</span>
+                <span data-i18n="hero.titleFirst">Fair Trade from</span> <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-200" data-i18n="hero.titleHighlight">Farm to Fork.</span>
             </h1>
 
-            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl leading-relaxed">
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl leading-relaxed" data-i18n="hero.description">
                 We eliminate the middlemen. GreenField Connect ensures hard-working farmers get paid fairly and instantly, while distributors receive premium quality produce on time.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-5">
                 <a href="#contact" class="bg-agri-500 hover:bg-agri-600 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:-translate-y-1 shadow-xl shadow-agri-900/50 flex items-center justify-center gap-2 group">
-                    Become a Partner
+                    <span data-i18n="hero.ctaPartner">Become a Partner</span>
                     <i data-lucide="arrow-right" class="h-5 w-5 group-hover:translate-x-1 transition-transform"></i>
                 </a>
-                <a href="#process" class="bg-white/5 hover:bg-white/15 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all flex items-center justify-center">
+                <a href="#process" class="bg-white/5 hover:bg-white/15 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all flex items-center justify-center" data-i18n="hero.ctaWork">
                     See How It Works
                 </a>
             </div>
@@ -159,20 +174,20 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-agri-200/50">
             <div>
-                <div class="text-3xl font-bold text-agri-800">5,000+</div>
-                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Farmers</div>
+                <div class="text-3xl font-bold text-agri-800" data-i18n="stats.farmers">5,000+</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1" data-i18n="stats.labelFarmers">Farmers</div>
             </div>
             <div>
-                <div class="text-3xl font-bold text-agri-800">120+</div>
-                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Distributors</div>
+                <div class="text-3xl font-bold text-agri-800" data-i18n="stats.distributors">120+</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1" data-i18n="stats.labelDistributors">Distributors</div>
             </div>
             <div>
-                <div class="text-3xl font-bold text-agri-800">15k Tons</div>
-                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Produce Moved</div>
+                <div class="text-3xl font-bold text-agri-800" data-i18n="stats.produce">15k Tons</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1" data-i18n="stats.labelProduce">Produce Moved</div>
             </div>
             <div>
-                <div class="text-3xl font-bold text-agri-800">100%</div>
-                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1">Payment Success</div>
+                <div class="text-3xl font-bold text-agri-800" data-i18n="stats.success">100%</div>
+                <div class="text-sm text-agri-600 uppercase tracking-wider mt-1" data-i18n="stats.labelSuccess">Payment Success</div>
             </div>
         </div>
     </div>
@@ -187,42 +202,42 @@
                 <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-earth-200 rounded-full opacity-50 mix-blend-multiply"></div>
                 <img src="https://fastly.picsum.photos/id/98/800/800.jpg?hmac=ZNQwdO2uxN0C_hwI9Wha3K7uKCkGVU6f3hlpRJ2uYgQ" alt="Farmers holding tablet" class="relative rounded-2xl shadow-2xl w-full object-cover aspect-[4/3] transform hover:scale-[1.02] transition-transform duration-500" />
                 <!-- Quote Card -->
-                <div class="absolute -bottom-8 -left-8 bg-white p-6 rounded-xl shadow-xl max-w-xs hidden lg:block border border-earth-100">
-                    <p class="text-slate-600 italic text-sm mb-4">"GreenField changed our lives. We finally get paid what we deserve, immediately."</p>
+                <!-- <div class="absolute -bottom-8 -left-8 bg-white p-6 rounded-xl shadow-xl max-w-xs hidden lg:block border border-earth-100">
+                    <p class="text-slate-600 italic text-sm mb-4">"<span data-i18n="about.quote">GreenField changed our lives. We finally get paid what we deserve, immediately.</span>"</p>
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
                             <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <div class="text-slate-900 font-bold text-sm">Rajesh Kumar</div>
-                            <div class="text-slate-500 text-xs">Wheat Farmer</div>
+                            <div class="text-slate-500 text-xs" data-i18n="about.quoteAuthor">Wheat Farmer</div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="order-1 md:order-2">
-                <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block">Who We Are</span>
-                <h2 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6 leading-tight">Built by Farmers,<br>For Farmers.</h2>
-                <p class="text-slate-600 mb-6 leading-relaxed text-lg">
+                <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="about.subtitle">Who We Are</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6 leading-tight" data-i18n="about.title">Built by Farmers,<br>For Farmers.</h2>
+                <p class="text-slate-600 mb-6 leading-relaxed text-lg" data-i18n="about.desc1">
                     We started with a simple mission: to bring dignity back to farming. Too often, value is lost in a complex chain of middlemen, leaving farmers with pennies and buyers with inflated costs.
                 </p>
-                <p class="text-slate-600 mb-8 leading-relaxed text-lg">
+                <p class="text-slate-600 mb-8 leading-relaxed text-lg" data-i18n="about.desc2">
                     GreenField Connect is a digital bridge. We combine traditional agricultural wisdom with modern logistics and transparent technology.
                 </p>
 
                 <ul class="space-y-4">
                     <li class="flex items-center gap-3">
                         <i data-lucide="check-circle-2" class="h-6 w-6 text-agri-500"></i>
-                        <span class="text-slate-700 text-lg">Zero hidden commissions</span>
+                        <span class="text-slate-700 text-lg" data-i18n="about.points.0">Zero hidden commissions</span>
                     </li>
                     <li class="flex items-center gap-3">
                         <i data-lucide="check-circle-2" class="h-6 w-6 text-agri-500"></i>
-                        <span class="text-slate-700 text-lg">24-hour payment guarantee</span>
+                        <span class="text-slate-700 text-lg" data-i18n="about.points.1">24-hour payment guarantee</span>
                     </li>
                     <li class="flex items-center gap-3">
                         <i data-lucide="check-circle-2" class="h-6 w-6 text-agri-500"></i>
-                        <span class="text-slate-700 text-lg">Verified quality checks</span>
+                        <span class="text-slate-700 text-lg" data-i18n="about.points.2">Verified quality checks</span>
                     </li>
                 </ul>
             </div>
@@ -234,47 +249,43 @@
 <section id="services" class="py-24 bg-earth-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
-            <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block">Our Services</span>
-            <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-4">Everything You Need to Grow</h2>
-            <p class="text-slate-600 text-lg">Comprehensive solutions for a fragmented market.</p>
+            <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="services.subtitle">Our Services</span>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-4" data-i18n="services.title">Everything You Need to Grow</h2>
+            <p class="text-slate-600 text-lg" data-i18n="services.desc">Comprehensive solutions for a fragmented market.</p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- Service Cards -->
             <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
                 <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300">
-{{--                    <i data-lucide="sprout" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sprout h-7 w-7 text-agri-600" aria-hidden="true"><path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3"></path><path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4"></path><path d="M5 21h14"></path></svg>
+                    <i data-lucide="sprout" class="h-7 w-7 text-agri-600"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">Direct Sourcing</h3>
-                <p class="text-slate-600 leading-relaxed">Access produce directly from the harvest. No aggregators, no delays.</p>
+                <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="services.s1Title">Direct Sourcing</h3>
+                <p class="text-slate-600 leading-relaxed" data-i18n="services.s1Desc">Access produce directly from the harvest. No aggregators, no delays.</p>
             </div>
 
             <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
                 <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300">
-{{--                    <i data-lucide="truck" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck h-7 w-7 text-agri-600" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+                    <i data-lucide="truck" class="h-7 w-7 text-agri-600"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">Smart Logistics</h3>
-                <p class="text-slate-600 leading-relaxed">Our tech-enabled fleet minimizes transit time to keep produce fresh.</p>
+                <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="services.s2Title">Smart Logistics</h3>
+                <p class="text-slate-600 leading-relaxed" data-i18n="services.s2Desc">Our tech-enabled fleet minimizes transit time to keep produce fresh.</p>
             </div>
 
             <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
                 <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300">
-{{--                    <i data-lucide="shield-check" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check h-7 w-7 text-agri-600" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                    <i data-lucide="shield-check" class="h-7 w-7 text-agri-600"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">Quality Control</h3>
-                <p class="text-slate-600 leading-relaxed">15-point inspection process at the farm gate before loading.</p>
+                <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="services.s3Title">Quality Control</h3>
+                <p class="text-slate-600 leading-relaxed" data-i18n="services.s3Desc">15-point inspection process at the farm gate before loading.</p>
             </div>
 
             <div class="bg-white p-8 rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1 border border-earth-100 group">
                 <div class="w-14 h-14 bg-agri-50 rounded-xl flex items-center justify-center mb-6  transition-colors duration-300">
-{{--                    <i data-lucide="trending-up" class="h-7 w-7 text-agri-600 group-hover:text-white transition-colors"></i>--}}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up h-7 w-7 text-agri-600" aria-hidden="true"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
+                    <i data-lucide="trending-up" class="h-7 w-7 text-agri-600"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">Market Insights</h3>
-                <p class="text-slate-600 leading-relaxed">Real-time price discovery helping farmers decide when to sell.</p>
+                <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="services.s4Title">Market Insights</h3>
+                <p class="text-slate-600 leading-relaxed" data-i18n="services.s4Desc">Real-time price discovery helping farmers decide when to sell.</p>
             </div>
         </div>
     </div>
@@ -284,8 +295,8 @@
 <section id="process" class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-20">
-            <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-4">Simple & Transparent Flow</h2>
-            <p class="text-slate-600 text-lg">From the soil to the store shelf in 4 steps.</p>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-4" data-i18n="process.title">Simple & Transparent Flow</h2>
+            <p class="text-slate-600 text-lg" data-i18n="process.subtitle">From the soil to the store shelf in 4 steps.</p>
         </div>
 
         <div class="relative">
@@ -296,26 +307,26 @@
                 <!-- Steps -->
                 <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
                     <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">1</div>
-                    <h3 class="font-bold text-xl mb-3 text-slate-900">Farmer Lists</h3>
-                    <p class="text-slate-600">Farmers upload harvest details, quantity, and expected dates via our mobile app.</p>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900" data-i18n="process.step1Title">Farmer Lists</h3>
+                    <p class="text-slate-600" data-i18n="process.step1Desc">Farmers upload harvest details, quantity, and expected dates via our mobile app.</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
                     <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">2</div>
-                    <h3 class="font-bold text-xl mb-3 text-slate-900">We Verify</h3>
-                    <p class="text-slate-600">Agents visit the farm, check quality, and agree on a fair, transparent price.</p>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900" data-i18n="process.step2Title">We Verify</h3>
+                    <p class="text-slate-600" data-i18n="process.step2Desc">Agents visit the farm, check quality, and agree on a fair, transparent price.</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
                     <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">3</div>
-                    <h3 class="font-bold text-xl mb-3 text-slate-900">We Connect</h3>
-                    <p class="text-slate-600">We match verified stock with distributor demand and handle the transport.</p>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900" data-i18n="process.step3Title">We Connect</h3>
+                    <p class="text-slate-600" data-i18n="process.step3Desc">We match verified stock with distributor demand and handle the transport.</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl border border-earth-100 shadow-lg text-center transform transition hover:-translate-y-2">
                     <div class="w-16 h-16 bg-agri-600 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-6 mx-auto shadow-lg shadow-agri-200 border-4 border-white">4</div>
-                    <h3 class="font-bold text-xl mb-3 text-slate-900">Instant Pay</h3>
-                    <p class="text-slate-600">Goods delivered. Farmers get paid instantly. Distributors get one invoice.</p>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900" data-i18n="process.step4Title">Instant Pay</h3>
+                    <p class="text-slate-600" data-i18n="process.step4Desc">Goods delivered. Farmers get paid instantly. Distributors get one invoice.</p>
                 </div>
             </div>
         </div>
@@ -329,8 +340,8 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">Why Choose Us?</h2>
-            <p class="text-agri-200 text-lg">Creating value for both sides of the marketplace.</p>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4" data-i18n="benefits.title">Why Choose Us?</h2>
+            <p class="text-agri-200 text-lg" data-i18n="benefits.subtitle">Creating value for both sides of the marketplace.</p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8 lg:gap-16">
@@ -338,40 +349,36 @@
             <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-10 border border-white/10 hover:bg-white/10 transition-colors">
                 <div class="flex items-center gap-4 mb-8">
                     <div class="p-3 bg-green-500/20 rounded-xl">
-                        <i data-lucide="wheat" class="h-8 w-8 text-green-400"></i>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf h-8 w-8 text-green-400" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+                        <i data-lucide="leaf" class="h-8 w-8 text-green-400"></i>
                     </div>
-                    <h3 class="text-3xl font-bold">For Farmers</h3>
+                    <h3 class="text-3xl font-bold" data-i18n="benefits.farmerTitle">For Farmers</h3>
                 </div>
                 <ul class="space-y-6">
                     <li class="flex items-start gap-4 group">
                         <div class="mt-1 p-1 bg-green-500/20 rounded-full">
                             <i data-lucide="check" class="h-4 w-4 text-green-400"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                         </div>
                         <div>
-                            <span class="text-xl font-semibold text-white block mb-1">Instant Payment</span>
-                            <span class="text-agri-200 text-sm">No more "net-60" terms. Get paid when produce leaves your farm.</span>
+                            <span class="text-xl font-semibold text-white block mb-1" data-i18n="benefits.f1Title">Instant Payment</span>
+                            <span class="text-agri-200 text-sm" data-i18n="benefits.f1Desc">No more "net-60" terms. Get paid when produce leaves your farm.</span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 group">
                         <div class="mt-1 p-1 bg-green-500/20 rounded-full">
                             <i data-lucide="check" class="h-4 w-4 text-green-400"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                         </div>
                         <div>
-                            <span class="text-xl font-semibold text-white block mb-1">Guaranteed Sales</span>
-                            <span class="text-agri-200 text-sm">Pre-agreed contracts mean you don't worry about finding buyers.</span>
+                            <span class="text-xl font-semibold text-white block mb-1" data-i18n="benefits.f2Title">Guaranteed Sales</span>
+                            <span class="text-agri-200 text-sm" data-i18n="benefits.f2Desc">Pre-agreed contracts mean you don't worry about finding buyers.</span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 group">
                         <div class="mt-1 p-1 bg-green-500/20 rounded-full">
                             <i data-lucide="check" class="h-4 w-4 text-green-400"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                         </div>
                         <div>
-                            <span class="text-xl font-semibold text-white block mb-1">Zero Transport Hassle</span>
-                            <span class="text-agri-200 text-sm">We bring the trucks to you. You focus on farming.</span>
+                            <span class="text-xl font-semibold text-white block mb-1" data-i18n="benefits.f3Title">Zero Transport Hassle</span>
+                            <span class="text-agri-200 text-sm" data-i18n="benefits.f3Desc">We bring the trucks to you. You focus on farming.</span>
                         </div>
                     </li>
                 </ul>
@@ -382,39 +389,35 @@
                 <div class="flex items-center gap-4 mb-8">
                     <div class="p-3 bg-blue-500/20 rounded-xl">
                         <i data-lucide="store" class="h-8 w-8 text-blue-400"></i>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck h-8 w-8 text-blue-400" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
                     </div>
-                    <h3 class="text-3xl font-bold">For Distributors</h3>
+                    <h3 class="text-3xl font-bold" data-i18n="benefits.distributorTitle">For Distributors</h3>
                 </div>
                 <ul class="space-y-6">
                     <li class="flex items-start gap-4 group">
                         <div class="mt-1 p-1 bg-blue-500/20 rounded-full">
                             <i data-lucide="check" class="h-4 w-4 text-blue-400"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-blue-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                         </div>
                         <div>
-                            <span class="text-xl font-semibold text-white block mb-1">Verified Quality</span>
-                            <span class="text-agri-200 text-sm">Consistent grading standards you can trust blindly.</span>
+                            <span class="text-xl font-semibold text-white block mb-1" data-i18n="benefits.d1Title">Verified Quality</span>
+                            <span class="text-agri-200 text-sm" data-i18n="benefits.d1Desc">Consistent grading standards you can trust blindly.</span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 group">
                         <div class="mt-1 p-1 bg-blue-500/20 rounded-full">
                             <i data-lucide="check" class="h-4 w-4 text-blue-400"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-blue-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                         </div>
                         <div>
-                            <span class="text-xl font-semibold text-white block mb-1">Planned Supply</span>
-                            <span class="text-agri-200 text-sm">Predictable inventory management with our booking app.</span>
+                            <span class="text-xl font-semibold text-white block mb-1" data-i18n="benefits.d2Title">Planned Supply</span>
+                            <span class="text-agri-200 text-sm" data-i18n="benefits.d2Desc">Predictable inventory management with our booking app.</span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 group">
                         <div class="mt-1 p-1 bg-blue-500/20 rounded-full">
                             <i data-lucide="check" class="h-4 w-4 text-blue-400"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check h-6 w-6 text-blue-400 flex-shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                         </div>
                         <div>
-                            <span class="text-xl font-semibold text-white block mb-1">Reduced Wastage</span>
-                            <span class="text-agri-200 text-sm">Optimized routes mean fresher produce and less loss.</span>
+                            <span class="text-xl font-semibold text-white block mb-1" data-i18n="benefits.d3Title">Reduced Wastage</span>
+                            <span class="text-agri-200 text-sm" data-i18n="benefits.d3Desc">Optimized routes mean fresher produce and less loss.</span>
                         </div>
                     </li>
                 </ul>
@@ -426,16 +429,16 @@
 <!-- FAQ -->
 <section id="faq" class="py-24 bg-earth-50">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-12 text-center">Common Questions</h2>
+        <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-12 text-center" data-i18n="faq.title">Common Questions</h2>
         <div class="space-y-4" id="faq-container">
 
             <!-- Item 1 -->
             <div class="bg-white rounded-xl shadow-sm border border-earth-200 overflow-hidden faq-item">
                 <button class="w-full px-8 py-6 text-left flex justify-between items-center faq-btn">
-                    <span class="font-bold text-lg text-slate-900">When do farmers get paid?</span>
+                    <span class="font-bold text-lg text-slate-900" data-i18n="faq.q1">When do farmers get paid?</span>
                     <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform duration-300"></i>
                 </button>
-                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50">
+                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50" data-i18n="faq.a1">
                     Farmers are paid 50% upon agreement and the remaining 50% instantly during pickup via bank transfer or UPI.
                 </div>
             </div>
@@ -443,10 +446,10 @@
             <!-- Item 2 -->
             <div class="bg-white rounded-xl shadow-sm border border-earth-200 overflow-hidden faq-item">
                 <button class="w-full px-8 py-6 text-left flex justify-between items-center faq-btn">
-                    <span class="font-bold text-lg text-slate-900">What kind of crops do you handle?</span>
+                    <span class="font-bold text-lg text-slate-900" data-i18n="faq.q2">What kind of crops do you handle?</span>
                     <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform duration-300"></i>
                 </button>
-                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50">
+                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50" data-i18n="faq.a2">
                     We specialize in wheat, rice, corn, onions, potatoes, tomatoes — and seasonal fruits soon.
                 </div>
             </div>
@@ -454,10 +457,10 @@
             <!-- Item 3 -->
             <div class="bg-white rounded-xl shadow-sm border border-earth-200 overflow-hidden faq-item">
                 <button class="w-full px-8 py-6 text-left flex justify-between items-center faq-btn">
-                    <span class="font-bold text-lg text-slate-900">How do you ensure quality?</span>
+                    <span class="font-bold text-lg text-slate-900" data-i18n="faq.q3">How do you ensure quality?</span>
                     <i data-lucide="chevron-down" class="chevron h-5 w-5 text-slate-400 transition-transform duration-300"></i>
                 </button>
-                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50">
+                <div class="faq-answer hidden px-8 pb-8 text-slate-600 leading-relaxed bg-slate-50/50" data-i18n="faq.a3">
                     Our experts inspect using moisture meters and sizing tools before listing products.
                 </div>
             </div>
@@ -472,9 +475,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-2 gap-16">
             <div>
-                <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block">Get in Touch</span>
-                <h2 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6">Let's Grow Together</h2>
-                <p class="text-slate-600 text-lg mb-10">
+                <span class="text-agri-600 font-bold text-sm tracking-widest uppercase mb-2 block" data-i18n="contact.subtitle">Get in Touch</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6" data-i18n="contact.title">Let's Grow Together</h2>
+                <p class="text-slate-600 text-lg mb-10" data-i18n="contact.desc">
                     Whether you are a farmer looking to sell or a retailer looking to buy, we are here to simplify your business.
                 </p>
 
@@ -484,7 +487,7 @@
                             <i data-lucide="phone" class="h-6 w-6 text-agri-600 group-hover:text-white transition-colors"></i>
                         </div>
                         <div>
-                            <div class="font-bold text-slate-900 text-lg">Call Us</div>
+                            <div class="font-bold text-slate-900 text-lg" data-i18n="contact.call">Call Us</div>
                             <div class="text-slate-600">+1 (555) 123-4567</div>
                         </div>
                     </div>
@@ -494,7 +497,7 @@
                             <i data-lucide="mail" class="h-6 w-6 text-agri-600 group-hover:text-white transition-colors"></i>
                         </div>
                         <div>
-                            <div class="font-bold text-slate-900 text-lg">Email Us</div>
+                            <div class="font-bold text-slate-900 text-lg" data-i18n="contact.email">Email Us</div>
                             <div class="text-slate-600">hello@greenfieldconnect.com</div>
                         </div>
                     </div>
@@ -504,7 +507,7 @@
                             <i data-lucide="map-pin" class="h-6 w-6 text-agri-600 group-hover:text-white transition-colors"></i>
                         </div>
                         <div>
-                            <div class="font-bold text-slate-900 text-lg">HQ Location</div>
+                            <div class="font-bold text-slate-900 text-lg" data-i18n="contact.location">HQ Location</div>
                             <div class="text-slate-600">AgriTech Park, Sector 4, Farmville</div>
                         </div>
                     </div>
@@ -515,17 +518,17 @@
                 <form class="space-y-6" onsubmit="event.preventDefault(); alert('Thanks for contacting GreenField! We will call you shortly.');">
                     <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">First Name</label>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2" data-i18n="contact.formFirst">First Name</label>
                             <input type="text" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white" placeholder="John" />
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">Last Name</label>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2" data-i18n="contact.formLast">Last Name</label>
                             <input type="text" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white" placeholder="Doe" />
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">I am a...</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2" data-i18n="contact.formRole">I am a...</label>
                         <div class="relative">
                             <select class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 bg-white outline-none appearance-none text-slate-700">
                                 <option>Farmer</option>
@@ -537,16 +540,16 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2" data-i18n="contact.formEmail">Email Address</label>
                         <input type="email" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white" placeholder="john@farm.com" />
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2" data-i18n="contact.formMsg">Message</label>
                         <textarea rows="4" class="w-full px-4 py-3 rounded-xl border border-earth-300 focus:ring-2 focus:ring-agri-500 outline-none transition-shadow bg-white resize-none" placeholder="Tell us about your produce..."></textarea>
                     </div>
 
-                    <button class="w-full bg-agri-600 text-white font-bold py-4 rounded-xl hover:bg-agri-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <button class="w-full bg-agri-600 text-white font-bold py-4 rounded-xl hover:bg-agri-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="contact.formBtn">
                         Send Message
                     </button>
                 </form>
@@ -569,10 +572,10 @@
             <div>
                 <h4 class="text-white font-semibold mb-6">Quick Links</h4>
                 <ul class="space-y-3">
-                    <li><a href="#about" class="hover:text-agri-400 transition-colors">About Us</a></li>
-                    <li><a href="#services" class="hover:text-agri-400 transition-colors">Services</a></li>
-                    <li><a href="#benefits" class="hover:text-agri-400 transition-colors">Benefits</a></li>
-                    <li><a href="#contact" class="hover:text-agri-400 transition-colors">Contact</a></li>
+                    <li><a href="#about" class="hover:text-agri-400 transition-colors" data-i18n="nav.about">About Us</a></li>
+                    <li><a href="#services" class="hover:text-agri-400 transition-colors" data-i18n="nav.services">Services</a></li>
+                    <li><a href="#benefits" class="hover:text-agri-400 transition-colors" data-i18n="nav.benefits">Benefits</a></li>
+                    <li><a href="#contact" class="hover:text-agri-400 transition-colors" data-i18n="nav.contact">Contact</a></li>
                 </ul>
             </div>
             <div>
@@ -596,7 +599,7 @@
 </footer>
 
 <!-- AI ASSISTANT WIDGET -->
-<div id="assistant-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+<!-- <div id="assistant-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
     <!-- Chat Window -->
     <div id="chat-window" class="hidden mb-4 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-agri-100 overflow-hidden flex flex-col h-[500px] animate-fade-in-up">
         <div class="bg-agri-600 p-4 flex justify-between items-center text-white">
@@ -619,7 +622,7 @@
             <div class="flex justify-start">
                 <div class="max-w-[85%] rounded-2xl px-4 py-3 text-sm bg-white text-slate-700 border border-earth-200 rounded-tl-none shadow-sm">
                     <p class="font-bold text-agri-600 text-xs mb-1">Assistant</p>
-                    Hello! 👋 I'm the GreenField Assistant. Ask me about market trends, crop tips, or how our platform works.
+                    <span data-i18n="chat.greeting">Hello! 👋 I'm the GreenField Assistant. Ask me about market trends, crop tips, or how our platform works.</span>
                 </div>
             </div>
         </div>
@@ -638,7 +641,7 @@
         </div>
 
         <div class="p-3 bg-white border-t border-earth-100 flex items-center gap-2">
-            <input type="text" id="chat-input" placeholder="Ask about crops..." class="flex-1 px-4 py-2.5 bg-earth-50 border border-earth-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-agri-500 transition-shadow" />
+            <input type="text" id="chat-input" data-i18n-placeholder="chat.placeholder" placeholder="Ask about crops..." class="flex-1 px-4 py-2.5 bg-earth-50 border border-earth-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-agri-500 transition-shadow" />
             <button id="send-chat" class="p-2.5 bg-agri-600 text-white rounded-full hover:bg-agri-700 transition-colors shadow-sm">
                 <i data-lucide="send" class="h-4 w-4"></i>
             </button>
@@ -648,45 +651,336 @@
     <!-- Toggle Button -->
     <button id="toggle-chat" class="bg-agri-600 text-white p-4 rounded-full shadow-xl hover:bg-agri-700 hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 group">
         <i data-lucide="message-circle" class="h-6 w-6 group-hover:animate-pulse"></i>
-        <span class="font-bold pr-1">Need Help?</span>
+        <span class="font-bold pr-1" data-i18n="chat.toggle">Need Help?</span>
     </button>
-</div>
+</div> -->
 
-<!-- Custom Keyframes for simple animations -->
-<style>
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
-    .animate-fade-in { animation: fadeInUp 0.3s ease-out forwards; }
-</style>
-
-<script type="module" src="/index.tsx"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const faqItems = document.querySelectorAll(".faq-item");
+    // Translation Data
+    const translations = {
+        en: {
+            nav: {
+                about: "About Us",
+                services: "Services",
+                process: "How it Works",
+                benefits: "Benefits",
+                contact: "Contact",
+                getStarted: "Get Started"
+            },
+            hero: {
+                badge: "#1 B2B Agri Platform",
+                titleFirst: "Fair Trade from",
+                titleHighlight: "Farm to Fork.",
+                description: "We eliminate the middlemen. GreenField Connect ensures hard-working farmers get paid fairly and instantly, while distributors receive premium quality produce on time.",
+                ctaPartner: "Become a Partner",
+                ctaWork: "See How It Works"
+            },
+            stats: {
+                farmers: "5,000+",
+                distributors: "120+",
+                produce: "15k Tons",
+                success: "100%",
+                labelFarmers: "Farmers",
+                labelDistributors: "Distributors",
+                labelProduce: "Produce Moved",
+                labelSuccess: "Payment Success"
+            },
+            about: {
+                title: "Built by Farmers, For Farmers.",
+                subtitle: "Who We Are",
+                desc1: "We started with a simple mission: to bring dignity back to farming. Too often, value is lost in a complex chain of middlemen, leaving farmers with pennies and buyers with inflated costs.",
+                desc2: "GreenField Connect is a digital bridge. We combine traditional agricultural wisdom with modern logistics and transparent technology.",
+                points: [
+                    "Zero hidden commissions",
+                    "24-hour payment guarantee",
+                    "Verified quality checks"
+                ],
+                quote: "GreenField changed our lives. We finally get paid what we deserve, immediately.",
+                quoteAuthor: "Wheat Farmer"
+            },
+            services: {
+                title: "Everything You Need to Grow",
+                subtitle: "Our Services",
+                s1Title: "Direct Sourcing",
+                s1Desc: "Access produce directly from the harvest. No aggregators, no delays.",
+                s2Title: "Smart Logistics",
+                s2Desc: "Our tech-enabled fleet minimizes transit time to keep produce fresh.",
+                s3Title: "Quality Control",
+                s3Desc: "15-point inspection process at the farm gate before loading.",
+                s4Title: "Market Insights",
+                s4Desc: "Real-time price discovery helping farmers decide when to sell."
+            },
+            process: {
+                title: "Simple & Transparent Flow",
+                subtitle: "From the soil to the store shelf in 4 steps.",
+                step1Title: "Farmer Lists",
+                step1Desc: "Farmers upload harvest details, quantity, and expected dates via our mobile app.",
+                step2Title: "We Verify",
+                step2Desc: "Agents visit the farm, check quality, and agree on a fair, transparent price.",
+                step3Title: "We Connect",
+                step3Desc: "We match verified stock with distributor demand and handle the transport.",
+                step4Title: "Instant Pay",
+                step4Desc: "Goods delivered. Farmers get paid instantly. Distributors get one invoice."
+            },
+            benefits: {
+                title: "Why Choose Us?",
+                subtitle: "Creating value for both sides of the marketplace.",
+                farmerTitle: "For Farmers",
+                distributorTitle: "For Distributors",
+                f1Title: "Instant Payment",
+                f1Desc: "No more 'net-60' terms. Get paid when produce leaves your farm.",
+                f2Title: "Guaranteed Sales",
+                f2Desc: "Pre-agreed contracts mean you don't worry about finding buyers.",
+                f3Title: "Zero Transport Hassle",
+                f3Desc: "We bring the trucks to you. You focus on farming.",
+                d1Title: "Verified Quality",
+                d1Desc: "Consistent grading standards you can trust blindly.",
+                d2Title: "Planned Supply",
+                d2Desc: "Predictable inventory management with our booking app.",
+                d3Title: "Reduced Wastage",
+                d3Desc: "Optimized routes mean fresher produce and less loss."
+            },
+            faq: {
+                title: "Common Questions",
+                q1: "When do farmers get paid?",
+                a1: "Farmers are paid 50% upon agreement and the remaining 50% instantly during pickup via bank transfer or UPI.",
+                q2: "What kind of crops do you handle?",
+                a2: "We specialize in wheat, rice, corn, onions, potatoes, tomatoes — and seasonal fruits soon.",
+                q3: "How do you ensure quality?",
+                a3: "Our experts inspect using moisture meters and sizing tools before listing products."
+            },
+            contact: {
+                title: "Let's Grow Together",
+                subtitle: "Get in Touch",
+                desc: "Whether you are a farmer looking to sell or a retailer looking to buy, we are here to simplify your business.",
+                call: "Call Us",
+                email: "Email Us",
+                location: "HQ Location",
+                formFirst: "First Name",
+                formLast: "Last Name",
+                formRole: "I am a...",
+                formEmail: "Email Address",
+                formMsg: "Message",
+                formBtn: "Send Message"
+            },
+            chat: {
+                greeting: "Hello! 👋 I'm the GreenField Assistant. Ask me about market trends, crop tips, or how our platform works.",
+                placeholder: "Ask about crops...",
+                toggle: "Need Help?"
+            }
+        },
+        gu: {
+            nav: {
+                about: "અમારા વિશે",
+                services: "સેવાઓ",
+                process: "પ્રક્રિયા",
+                benefits: "ફાયદા",
+                contact: "સંપર્ક",
+                getStarted: "શરૂ કરો"
+            },
+            hero: {
+                badge: "#1 કૃષિ B2B પ્લેટફોર્મ",
+                titleFirst: "ખેતર થી થાળી સુધી,",
+                titleHighlight: "યોગ્ય વેપાર.",
+                description: "અમે વચેટિયાઓને દૂર કરીએ છીએ. ગ્રીનફિલ્ડ કનેક્ટ સુનિશ્ચિત કરે છે કે સખત મહેનત કરનારા ખેડૂતોને તરત જ વાજબી ભાવ મળે અને વેપારીઓને ગુણવત્તાયુક્ત ઉત્પાદન મળે.",
+                ctaPartner: "ભાગીદાર બનો",
+                ctaWork: "જુઓ કેવી રીતે કામ કરે છે"
+            },
+            stats: {
+                farmers: "૫,૦૦૦+",
+                distributors: "૧૨૦+",
+                produce: "૧૫ હજાર ટન",
+                success: "૧૦૦%",
+                labelFarmers: "ખેડૂતો",
+                labelDistributors: "વિતરકો",
+                labelProduce: "ઉત્પાદન વિતરણ",
+                labelSuccess: "સફળ ચુકવણી"
+            },
+            about: {
+                title: "ખેડૂતો દ્વારા, ખેડૂતો માટે.",
+                subtitle: "અમે કોણ છીએ",
+                desc1: "અમે એક સરળ મિશન સાથે શરૂઆત કરી: ખેતીને તેનું ગૌરવ પાછું અપાવવું. ઘણીવાર, વચેટિયાઓની જટિલ સાંકળમાં મૂલ્ય ખોવાઈ જાય છે, જેનાથી ખેડૂતોને ઓછું મળે છે અને ખરીદદારોને મોંઘું પડે છે.",
+                desc2: "ગ્રીનફિલ્ડ કનેક્ટ એક ડિજિટલ સેતુ છે. અમે પરંપરાગત કૃષિ જ્ઞાનને આધુનિક લોજિસ્ટિક્સ અને પારદર્શક ટેકનોલોજી સાથે જોડીએ છીએ.",
+                points: [
+                    "કોઈ છુપાયેલ કમિશન નહીં",
+                    "૨૪-કલાકમાં ચુકવણીની ખાતરી",
+                    "ચકાસાયેલ ગુણવત્તા"
+                ],
+                quote: "ગ્રીનફિલ્ડ અમારા જીવનને બદલી નાખ્યું છે. અમને હવે તરત જ અમારી મહેનતનું યોગ્ય વળતર મળે છે.",
+                quoteAuthor: "ઘઉંના ખેડૂત"
+            },
+            services: {
+                title: "વિકાસ માટે જરૂરી બધું",
+                subtitle: "અમારી સેવાઓ",
+                s1Title: "સીધી ખરીદી",
+                s1Desc: "સીધા ખેતરથી ઉત્પાદન મેળવો. કોઈ વચેટિયા નહીં, કોઈ વિલંબ નહીં.",
+                s2Title: "સ્માર્ટ લોજિસ્ટિક્સ",
+                s2Desc: "અમારું ટેક-સક્ષમ કાફલો પરિવહન સમય ઘટાડે છે જેથી ઉત્પાદન તાજું રહે.",
+                s3Title: "ગુણવત્તા નિયંત્રણ",
+                s3Desc: "લોડિંગ પહેલાં ખેતરના દરવાજે ૧૫-પોઇન્ટ નિરીક્ષણ પ્રક્રિયા.",
+                s4Title: "બજારની સમજ",
+                s4Desc: "રિયલ-ટાઇમ ભાવ શોધ જે ખેડૂતોને ક્યારે વેચવું તે નક્કી કરવામાં મદદ કરે છે."
+            },
+            process: {
+                title: "સરળ અને પારદર્શક પ્રવાહ",
+                subtitle: "માટી થી દુકાન સુધી, માત્ર ૪ સ્ટેપમાં.",
+                step1Title: "ખેડૂત લિસ્ટિંગ",
+                step1Desc: "ખેડૂતો અમારી એપ દ્વારા પાકની વિગતો, જથ્થો અને તારીખો અપલોડ કરે છે.",
+                step2Title: "અમે ચકાસીએ છીએ",
+                step2Desc: "એજન્ટો ખેતરની મુલાકાત લે છે, ગુણવત્તા તપાસે છે અને યોગ્ય ભાવ નક્કી કરે છે.",
+                step3Title: "અમે જોડીએ છીએ",
+                step3Desc: "અમે ચકાસાયેલ સ્ટોકને વિતરકોની માંગ સાથે મેચ કરીએ છીએ અને પરિવહન સંભાળીએ છીએ.",
+                step4Title: "ત્વરિત ચુકવણી",
+                step4Desc: "માલ પહોંચાડ્યો. ખેડૂતોને તરત જ પૈસા મળે છે. વિતરકોને એક ઇન્વોઇસ મળે છે."
+            },
+            benefits: {
+                title: "અમને શા માટે પસંદ કરવા?",
+                subtitle: "બંને પક્ષો માટે મૂલ્ય નિર્માણ.",
+                farmerTitle: "ખેડૂતો માટે",
+                distributorTitle: "વિતરકો માટે",
+                f1Title: "ત્વરિત ચુકવણી",
+                f1Desc: "કોઈ લાંબી ઉધારી નહીં. જ્યારે તમારું ઉત્પાદન ખેતર છોડે ત્યારે પૈસા મેળવો.",
+                f2Title: "ખાતરીપૂર્વક વેચાણ",
+                f2Desc: "પહેલાથી નક્કી કરાયેલા કોન્ટ્રાક્ટ્સ એટલે ખરીદદારો શોધવાની ચિંતા નહીં.",
+                f3Title: "પરિવહનની ચિંતા નહીં",
+                f3Desc: "અમે તમારા સુધી ટ્રક લાવીએ છીએ. તમે માત્ર ખેતી પર ધ્યાન આપો.",
+                d1Title: "ચકાસાયેલ ગુણવત્તા",
+                d1Desc: "સતત ગ્રેડિંગ ધોરણો જેના પર તમે આંખ બંધ કરીને વિશ્વાસ કરી શકો.",
+                d2Title: "આયોજિત પુરવઠો",
+                d2Desc: "અમારી બુકિંગ એપ સાથે અનુમાનિત ઇન્વેન્ટરી મેનેજમેન્ટ.",
+                d3Title: "ઘટાડેલો બગાડ",
+                d3Desc: "શ્રેષ્ઠ રૂટ્સ એટલે તાજું ઉત્પાદન અને ઓછું નુકસાન."
+            },
+            faq: {
+                title: "સામાન્ય પ્રશ્નો",
+                q1: "ખેડૂતોને ક્યારે પૈસા મળે છે?",
+                a1: "સમજૂતી પર ૫૦% અને બાકીના ૫૦% પિકઅપ સમયે બેંક ટ્રાન્સફર અથવા UPI દ્વારા તરત જ ચૂકવવામાં આવે છે.",
+                q2: "તમે કયા પાકો સંભાળો છો?",
+                a2: "અમે ઘઉં, ચોખા, મકાઈ, ડુંગળી, બટાકા, ટામેટાં - અને ટૂંક સમયમાં મોસમી ફળોમાં નિષ્ણાત છીએ.",
+                q3: "તમે ગુણવત્તા કેવી રીતે સુનિશ્ચિત કરો છો?",
+                a3: "અમારા નિષ્ણાતો ઉત્પાદનોની યાદી આપતા પહેલા ભેજ માપક અને કદ માપવાના સાધનોનો ઉપયોગ કરીને તપાસ કરે છે."
+            },
+            contact: {
+                title: "ચાલો સાથે મળીને પ્રગતિ કરીએ",
+                subtitle: "સંપર્ક કરો",
+                desc: "ભલે તમે વેચવા માંગતા ખેડૂત હોવ કે ખરીદવા માંગતા વેપારી, અમે તમારા વ્યવસાયને સરળ બનાવવા માટે અહીં છીએ.",
+                call: "ફોન કરો",
+                email: "ઈમેલ કરો",
+                location: "મુખ્ય મથક",
+                formFirst: "નામ",
+                formLast: "અટક",
+                formRole: "હું એક...",
+                formEmail: "ઈમેલ સરનામું",
+                formMsg: "સંદેશ",
+                formBtn: "સંદેશ મોકલો"
+            },
+            chat: {
+                greeting: "નમસ્તે! 👋 હું ગ્રીનફિલ્ડ સહાયક છું. મને બજારના વલણો, પાકની સલાહ અથવા પ્લેટફોર્મ વિશે પૂછો.",
+                placeholder: "પાક વિશે પૂછો...",
+                toggle: "મદદ જોઈએ છે?"
+            }
+        }
+    };
 
+    // State
+    let currentLang = 'gu'; // Default to Gujarati
+
+    // Language Toggle Function
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'gu' : 'en';
+        updateContent();
+    }
+
+    // Update DOM content
+    function updateContent() {
+        const t = translations[currentLang];
+
+        // 1. Update text content
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const keys = key.split('.');
+            let val = t;
+            for (const k of keys) val = val ? val[k] : null;
+
+            if (val) {
+                // Handle arrays (for benefits list points)
+                if (Array.isArray(val)) {
+                    // Logic for arrays if needed, but we used specific keys (points.0)
+                } else {
+                    el.innerText = val;
+                }
+            }
+        });
+
+        // 2. Update placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            const keys = key.split('.');
+            let val = t;
+            for (const k of keys) val = val ? val[k] : null;
+            if (val) el.placeholder = val;
+        });
+
+        // 3. Update Language Button Labels
+        const label = currentLang === 'en' ? 'English' : ' ગુજરાતી';
+        document.querySelectorAll('.lang-label').forEach(el => el.innerText = label);
+
+        // 4. Update html lang attribute
+        document.documentElement.lang = currentLang;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Init FAQ
+        const faqItems = document.querySelectorAll(".faq-item");
         faqItems.forEach((item) => {
             const btn = item.querySelector(".faq-btn");
             const answer = item.querySelector(".faq-answer");
             const icon = item.querySelector(".chevron");
 
             btn.addEventListener("click", () => {
-
-                // Close other items (Accordion)
                 faqItems.forEach((other) => {
                     if (other !== item) {
                         other.querySelector(".faq-answer").classList.add("hidden");
                         other.querySelector(".chevron").classList.remove("rotate-180");
                     }
                 });
-
-                // Toggle current item
                 answer.classList.toggle("hidden");
                 icon.classList.toggle("rotate-180");
             });
         });
+
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        });
+
+        // Chat Widget Toggle
+        const chatWidget = document.getElementById('chat-window');
+        const chatToggle = document.getElementById('toggle-chat');
+        const chatClose = document.getElementById('close-chat');
+
+        const toggleChat = () => {
+            chatWidget.classList.toggle('hidden');
+        }
+
+        chatToggle.addEventListener('click', toggleChat);
+        chatClose.addEventListener('click', toggleChat);
+
+        // Initial Content Update
+        updateContent();
 
         // Load Lucide Icons
         lucide.createIcons();
