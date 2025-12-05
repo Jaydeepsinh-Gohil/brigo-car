@@ -599,7 +599,7 @@
 </footer>
 
 <!-- AI ASSISTANT WIDGET -->
-<!-- <div id="assistant-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+<div id="assistant-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
     <!-- Chat Window -->
     <div id="chat-window" class="hidden mb-4 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-agri-100 overflow-hidden flex flex-col h-[500px] animate-fade-in-up">
         <div class="bg-agri-600 p-4 flex justify-between items-center text-white">
@@ -649,11 +649,11 @@
     </div>
 
     <!-- Toggle Button -->
-    <button id="toggle-chat" class="bg-agri-600 text-white p-4 rounded-full shadow-xl hover:bg-agri-700 hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 group">
+    <!-- <button id="toggle-chat" class="bg-agri-600 text-white p-4 rounded-full shadow-xl hover:bg-agri-700 hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 group">
         <i data-lucide="message-circle" class="h-6 w-6 group-hover:animate-pulse"></i>
         <span class="font-bold pr-1" data-i18n="chat.toggle">Need Help?</span>
-    </button>
-</div> -->
+    </button> -->
+</div>
 
 <script>
     // Translation Data
@@ -968,16 +968,16 @@
         });
 
         // Chat Widget Toggle
-        const chatWidget = document.getElementById('chat-window');
-        const chatToggle = document.getElementById('toggle-chat');
-        const chatClose = document.getElementById('close-chat');
+        //const chatWidget = document.getElementById('chat-window');
+        //const chatToggle = document.getElementById('toggle-chat');
+        //const chatClose = document.getElementById('close-chat');
 
-        const toggleChat = () => {
-            chatWidget.classList.toggle('hidden');
-        }
+        // const toggleChat = () => {
+        //     chatWidget.classList.toggle('hidden');
+        // }
 
-        chatToggle.addEventListener('click', toggleChat);
-        chatClose.addEventListener('click', toggleChat);
+        // chatToggle.addEventListener('click', toggleChat);
+        // chatClose.addEventListener('click', toggleChat);
 
         // Initial Content Update
         updateContent();
